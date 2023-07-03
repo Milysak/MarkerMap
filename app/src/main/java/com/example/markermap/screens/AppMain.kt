@@ -14,9 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.bottomnavbardemo.screens.HomeScreen
-import com.example.bottomnavbardemo.screens.MapScreen
-import com.example.bottomnavbardemo.screens.SettingsScreen
+import com.example.markermap.screens.bottomNavigationScreens.HomeScreen
+import com.example.markermap.screens.bottomNavigationScreens.MapScreen
+import com.example.markermap.screens.bottomNavigationScreens.SettingsScreen
 
 sealed class BottomBarScreen(
     val route: String,

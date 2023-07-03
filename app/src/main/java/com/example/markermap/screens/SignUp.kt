@@ -25,11 +25,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.markermap.app.Routes
+import com.example.markermap.viewmodels.LoginViewModel
+import com.example.markermap.viewmodels.SignUpViewModel
 
 @Composable
 fun SignUp(navController: NavController){
+    val viewModel: SignUpViewModel = viewModel()
+
     Column(
         Modifier
             .fillMaxHeight()
@@ -38,41 +43,44 @@ fun SignUp(navController: NavController){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val username = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
-
         Text(text = "Register Here!", fontSize = 35.sp)
 
         Spacer(modifier = Modifier.height(40.dp))
 
         OutlinedTextField(
-            value = username.value,
+            value = viewModel.currentUsername,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Username") },
             onValueChange = {
-                username.value = it
+                viewModel.currentUsername = it
             }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = password.value,
+            value = viewModel.currentPassword,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it })
+            onValueChange = {
+                viewModel.currentPassword = it
+            }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            value = password.value,
+            value = viewModel.confirmCurrentPassword,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it })
+            onValueChange = {
+                viewModel.confirmCurrentPassword = it
+            }
+        )
 
         Spacer(modifier = Modifier.height(50.dp))
 
@@ -93,7 +101,9 @@ fun SignUp(navController: NavController){
         Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedButton(
-            onClick = { navController.navigate(Routes.Login.route) },
+            onClick = {
+                navController.navigateUp()
+                      },
             modifier = Modifier
                 .width(250.dp)
                 .height(50.dp),
