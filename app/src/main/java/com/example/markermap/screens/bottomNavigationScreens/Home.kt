@@ -27,15 +27,14 @@ import com.example.markermap.app.Routes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
-    Box(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(0.dp, 10.dp, 0.dp, 100.dp)
+                .padding(0.dp, 10.dp, 0.dp, 10.dp),
         ) {
             CustomCard("Zegarek", 3.1)
             CustomCard("Kluczyki", 4.3)
@@ -58,7 +57,7 @@ fun CustomCard(title: String, distance: Double) {
         onClick = { expanded = !expanded },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp, 15.dp, 15.dp, 0.dp)
+            .padding(15.dp, 7.5.dp, 15.dp, 7.5.dp)
     ) {
         Column {
             Image(painter = painterResource(id = R.drawable.ic_launcher_background),
