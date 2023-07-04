@@ -1,6 +1,7 @@
 package com.example.markermap.screens.bottomNavigationScreens
 
 import android.graphics.Camera
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -50,7 +51,11 @@ fun MapScreen(
             properties = viewModel.state.properties,
             uiSettings = MapUiSettings(zoomControlsEnabled = false)
         ) {
-
+            if (isSystemInDarkTheme()) {
+                viewModel.setDarkMapTheme()
+            } else {
+                viewModel.setLightMapTheme()
+            }
         }
     }
 }
