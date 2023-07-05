@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
 
+    val componentsWidth = 0.85f
+
     var currentUsername by mutableStateOf("")
 
     var currentPassword by mutableStateOf("")

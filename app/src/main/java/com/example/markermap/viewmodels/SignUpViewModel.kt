@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 
 class SignUpViewModel : ViewModel() {
 
+    val componentsWidth = 0.85f
+
     var currentNickname by mutableStateOf("")
 
     var currentUsername by mutableStateOf("")

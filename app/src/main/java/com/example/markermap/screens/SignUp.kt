@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -37,16 +38,18 @@ fun SignUp(navController: NavController){
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(0.dp, 0.dp, 0.dp, 50.dp),
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Register Here!", fontSize = 35.sp)
+        Text(modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
+            text = "REGISTER HERE!",
+            fontSize = 30.sp)
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentNickname,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Nickname") },
@@ -62,7 +65,7 @@ fun SignUp(navController: NavController){
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentUsername,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Username") },
@@ -83,7 +86,7 @@ fun SignUp(navController: NavController){
 
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentPassword,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Password") },
@@ -106,7 +109,7 @@ fun SignUp(navController: NavController){
         Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.confirmCurrentPassword,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Password") },
@@ -131,7 +134,7 @@ fun SignUp(navController: NavController){
         ExtendedFloatingActionButton(
             onClick = { /* Do something! */ },
             modifier = Modifier
-                .width(250.dp)
+                .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             icon = {
                 Icon(
@@ -142,14 +145,16 @@ fun SignUp(navController: NavController){
             text = { Text("Register", fontSize = 20.sp) }
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(15.dp))
+        Divider(modifier = Modifier.fillMaxWidth(viewModel.componentsWidth - 0.05f))
+        Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedButton(
             onClick = {
                 navController.navigateUp()
                       },
             modifier = Modifier
-                .width(250.dp)
+                .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             shape = RoundedCornerShape(15.dp)
         ) {

@@ -29,6 +29,7 @@ import com.example.markermap.AppActivity
 import com.example.markermap.R
 import com.example.markermap.app.Routes
 import com.example.markermap.viewmodels.LoginViewModel
+import java.time.format.TextStyle
 
 @Composable
 fun LoginPage(navController: NavController){
@@ -38,16 +39,19 @@ fun LoginPage(navController: NavController){
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(0.dp, 0.dp, 0.dp, 50.dp),
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Welcome Back!", fontSize = 35.sp)
+        Text(modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
+            text = "WELCOME BACK!",
+            fontSize = 30.sp,
+        )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentUsername,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Username") },
@@ -67,7 +71,7 @@ fun LoginPage(navController: NavController){
         val changeVisibilityIcon = if (passwordVisibility) painterResource(id = R.drawable.eye_show) else painterResource(id = R.drawable.eye_hide)
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentPassword,
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Password") },
@@ -93,7 +97,7 @@ fun LoginPage(navController: NavController){
         ExtendedFloatingActionButton(
             onClick = { mContext.startActivity(Intent(mContext, AppActivity::class.java)) },
             modifier = Modifier
-                .width(250.dp)
+                .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             icon = {
                 Icon(
@@ -104,7 +108,9 @@ fun LoginPage(navController: NavController){
             text = { Text("Login", fontSize = 20.sp) }
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(15.dp))
+        Divider(modifier = Modifier.fillMaxWidth(viewModel.componentsWidth - 0.05f))
+        Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedButton(
             onClick = {
@@ -113,7 +119,7 @@ fun LoginPage(navController: NavController){
                 }
                       },
             modifier = Modifier
-                .width(250.dp)
+                .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             shape = RoundedCornerShape(15.dp)
         ) {

@@ -65,7 +65,7 @@ fun CustomCard(title: String, distance: Double) {
                 contentDescription = "photos of thing",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .height(75.dp)
+                    .height(125.dp)
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.primary)
                 )
