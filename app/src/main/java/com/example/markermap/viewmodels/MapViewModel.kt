@@ -12,8 +12,8 @@ import com.google.android.gms.maps.model.MapStyleOptions
 class MapViewModel : ViewModel() {
     var state by mutableStateOf(MapState())
 
-    val darkMapTheme = MapStyleOptions(DarkMapStyle.json)
-    val lightMapTheme = MapStyleOptions(LightMapStyle.json)
+    private val darkMapTheme = MapStyleOptions(DarkMapStyle.json)
+    private val lightMapTheme = MapStyleOptions(LightMapStyle.json)
 
     fun setDarkMapTheme() {
         state = state.copy(

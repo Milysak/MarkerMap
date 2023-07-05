@@ -131,7 +131,7 @@ object DarkMapStyle {
                "elementType": "geometry",
                "stylers": [
                    {
-                       "color": "#8074a2"
+                       "color": "#4f4274"
                    }
                ]
            },
