@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 
 class SignUpViewModel : ViewModel() {
 
+    var currentNickname by mutableStateOf("")
+
     var currentUsername by mutableStateOf("")
 
     var currentPassword by mutableStateOf("")

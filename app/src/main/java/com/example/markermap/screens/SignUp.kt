@@ -6,10 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -47,6 +44,22 @@ fun SignUp(navController: NavController){
         Text(text = "Register Here!", fontSize = 35.sp)
 
         Spacer(modifier = Modifier.height(40.dp))
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(0.9f),
+            value = viewModel.currentNickname,
+            shape = RoundedCornerShape(15.dp),
+            label = { Text(text = "Nickname") },
+            onValueChange = {
+                viewModel.currentNickname = it
+            },
+            leadingIcon = {
+                Icon(imageVector = Icons.Default.Person, contentDescription = "Person Icon")
+            },
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(0.9f),
