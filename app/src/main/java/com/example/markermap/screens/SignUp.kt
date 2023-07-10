@@ -31,9 +31,7 @@ import com.example.markermap.viewmodels.LoginViewModel
 import com.example.markermap.viewmodels.SignUpViewModel
 
 @Composable
-fun SignUp(navController: NavController){
-    val viewModel: SignUpViewModel = viewModel()
-
+fun SignUp(navController: NavController, viewModel: SignUpViewModel = viewModel()){
     Column(
         Modifier
             .fillMaxHeight()
@@ -57,7 +55,9 @@ fun SignUp(navController: NavController){
                 viewModel.currentNickname = it
             },
             leadingIcon = {
-                Icon(imageVector = Icons.Default.Person, contentDescription = "Person Icon")
+                Icon(modifier = Modifier.height(22.5.dp),
+                    painter = painterResource(id = R.drawable.nickname_filled),
+                    contentDescription = "Person Icon")
             },
             singleLine = true
         )
@@ -68,12 +68,12 @@ fun SignUp(navController: NavController){
             modifier = Modifier.fillMaxWidth(viewModel.componentsWidth),
             value = viewModel.currentUsername,
             shape = RoundedCornerShape(15.dp),
-            label = { Text(text = "Username") },
+            label = { Text(text = "Email") },
             onValueChange = {
                 viewModel.currentUsername = it
             },
             leadingIcon = {
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = "AccountBox Icon")
+                Icon(modifier = Modifier.height(22.5.dp), painter = painterResource(id = R.drawable.mail_filled_2), contentDescription = "AccountBox Icon")
             },
             singleLine = true
         )
@@ -82,7 +82,7 @@ fun SignUp(navController: NavController){
 
         var passwordVisibility by remember { mutableStateOf(false) }
 
-        val changeVisibilityIcon = if (passwordVisibility) painterResource(id = R.drawable.eye_show) else painterResource(id = R.drawable.eye_hide)
+        val changeVisibilityIcon = if (passwordVisibility) painterResource(id = R.drawable.eye_filled) else painterResource(id = R.drawable.eye_crossed_filled)
 
 
         OutlinedTextField(
@@ -97,7 +97,7 @@ fun SignUp(navController: NavController){
             },
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                    Icon(painter = changeVisibilityIcon, contentDescription = "Show/Hide")
+                    Icon(modifier = Modifier.height(22.5.dp), painter = changeVisibilityIcon, contentDescription = "Show/Hide")
                 }
             },
             leadingIcon = {
@@ -120,7 +120,7 @@ fun SignUp(navController: NavController){
             },
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                    Icon(painter = changeVisibilityIcon, contentDescription = "Show/Hide")
+                    Icon(modifier = Modifier.height(22.5.dp), painter = changeVisibilityIcon, contentDescription = "Show/Hide")
                 }
             },
             leadingIcon = {
@@ -137,12 +137,13 @@ fun SignUp(navController: NavController){
                 .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             icon = {
-                Icon(
-                    Icons.Filled.Lock,
+                Icon(modifier = Modifier.height(20.dp),
+                    painter = painterResource(id = R.drawable.signup_outlined),
                     contentDescription = "Favorite"
                 )
             },
-            text = { Text("Register", fontSize = 20.sp) }
+            text = { Text("Register", fontSize = 20.sp) },
+            containerColor = MaterialTheme.colorScheme.primary
         )
 
         Spacer(modifier = Modifier.height(15.dp))

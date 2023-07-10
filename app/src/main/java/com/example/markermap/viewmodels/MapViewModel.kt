@@ -12,6 +12,12 @@ import com.google.android.gms.maps.model.MapStyleOptions
 class MapViewModel : ViewModel() {
     var state by mutableStateOf(MapState())
 
+    var latitude by mutableStateOf(50.262606656386104)
+
+    var longitude by mutableStateOf(19.03967912803772)
+
+    var zoom by mutableStateOf(12f)
+
     private val darkMapTheme = MapStyleOptions(DarkMapStyle.json)
     private val lightMapTheme = MapStyleOptions(LightMapStyle.json)
 

@@ -1,7 +1,9 @@
 package com.example.markermap.screens.bottomNavigationScreens
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources.Theme
+import android.graphics.Bitmap
 import android.graphics.Camera
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,20 +16,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.example.markermap.AppActivity
+import com.example.markermap.R
 import com.example.markermap.viewmodels.MapViewModel
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.CameraPositionState
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
+import com.google.maps.android.compose.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,22 +101,69 @@ fun MapScreen(
         }
     ) {
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(LatLng(50.262606656386104, 19.03967912803772), 12f)
+            position = CameraPosition.fromLatLngZoom(LatLng(viewModel.latitude, viewModel.longitude), viewModel.zoom)
         }
         GoogleMap(
             cameraPositionState = cameraPositionState,
             modifier = Modifier
                 .fillMaxSize(),
             properties = viewModel.state.properties,
-            uiSettings = MapUiSettings(zoomControlsEnabled = false)
+            uiSettings = MapUiSettings(zoomControlsEnabled = false),
         ) {
+            if (cameraPositionState.cameraMoveStartedReason == CameraMoveStartedReason.GESTURE) {
+                viewModel.latitude = cameraPositionState.position.target.latitude
+                viewModel.longitude = cameraPositionState.position.target.longitude
+                viewModel.zoom = cameraPositionState.position.zoom
+            }
+
             if (isSystemInDarkTheme()) {
                 viewModel.setDarkMapTheme()
             } else {
                 viewModel.setLightMapTheme()
             }
+
+            Marker(
+                state = MarkerState(
+                    LatLng(49.96861722265689, 19.111226003470446),
+                ),
+                icon = bitmapDescriptor(LocalContext.current, R.drawable.user_filled)
+            )
+
+            Marker(
+                state = MarkerState(
+                    LatLng(50.12381886976235, 18.989313893414902),
+                ),
+                icon = bitmapDescriptor(LocalContext.current, R.drawable.user_filled)
+            )
+
+            Marker(
+                state = MarkerState(
+                    LatLng(50.25230345189794, 18.958790480737246),
+                ),
+                icon = bitmapDescriptor(LocalContext.current, R.drawable.user_filled)
+            )
         }
     }
+}
+
+fun bitmapDescriptor(
+    context: Context,
+    vectorResId: Int
+): BitmapDescriptor? {
+
+    // retrieve the actual drawable
+    val drawable = ContextCompat.getDrawable(context, vectorResId) ?: return null
+    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    val bm = Bitmap.createBitmap(
+        drawable.intrinsicWidth,
+        drawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+
+    // draw it onto the bitmap
+    val canvas = android.graphics.Canvas(bm)
+    drawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bm)
 }
 
 @Composable
