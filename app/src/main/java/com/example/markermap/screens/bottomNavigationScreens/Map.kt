@@ -1,11 +1,7 @@
 package com.example.markermap.screens.bottomNavigationScreens
 
 import android.content.Context
-import android.content.Intent
-import android.content.res.Resources.Theme
 import android.graphics.Bitmap
-import android.graphics.Camera
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -15,27 +11,18 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
-import com.example.markermap.AppActivity
 import com.example.markermap.R
 import com.example.markermap.viewmodels.MapViewModel
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
 import com.google.maps.android.compose.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     viewModel: MapViewModel = androidx.lifecycle.viewmodel.compose.viewModel()

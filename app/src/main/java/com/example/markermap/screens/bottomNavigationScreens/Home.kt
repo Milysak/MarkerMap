@@ -1,6 +1,7 @@
 package com.example.markermap.screens.bottomNavigationScreens
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -19,14 +20,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,7 +39,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
         modifier = Modifier
             .fillMaxSize(),
     ) {
-        val scrollState = rememberScrollState(viewModel.scrollProgress)
+        // val scrollState = rememberScrollState(viewModel.scrollProgress)
 
         Column {
             val listOfCards = listOf(
@@ -93,8 +92,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 modifier = Modifier
                     .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
                     .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .height(70.dp),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -165,19 +163,22 @@ fun MultiToggleButton(
     val unselectedTint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
 
     Row(modifier = Modifier
-        .height(IntrinsicSize.Min)
+        .height(55.dp)
         .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         toggleStates.forEachIndexed { index, toggleState ->
             val isSelected = currentSelection.lowercase() == toggleState.lowercase()
-            val color = if (isSelected) selectedTint else unselectedTint
+            val color by animateColorAsState(
+                targetValue = if (isSelected) selectedTint else unselectedTint,
+                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+            )
             val textBold = if (isSelected) FontWeight.Bold else FontWeight.Normal
             val icon = if (isSelected) toggleActiveIcons[index] else toggleInactiveIcons[index]
 
             Row(
                 modifier = Modifier
-                    .padding(bottom = 10.dp)
                     .toggleable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
@@ -188,11 +189,13 @@ fun MultiToggleButton(
                                 onToggleChange(toggleState)
                             }
                         }
-                    )
+                    ),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(painter = painterResource(id = icon),
                     contentDescription = "Icon of Toggle",
-                    tint = color
+                    tint = color,
+                    modifier = Modifier.size(20.dp)
                 )
                 Text(toggleState.uppercase(),
                     color = color,
@@ -208,7 +211,10 @@ fun MultiToggleButton(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomHorizontalPager(listOfCards: List<FlipCardData>) {
-    val pagerState = rememberPagerState()
+    val pageCount = Int.MAX_VALUE
+    val pagerState = rememberPagerState(initialPage =
+        ((pageCount / 2) / 10) * 10
+    )
 
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -220,22 +226,23 @@ fun CustomHorizontalPager(listOfCards: List<FlipCardData>) {
             modifier = Modifier
                 .fillMaxHeight(0.7f)
                 .fillMaxWidth(),
-            pageCount = listOfCards.size,
+            pageCount = pageCount,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 50.dp),
-            pageSpacing = 0.dp
+            pageSpacing = 10.dp
         ) { page ->
 
-            val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+            val index = page % 10
+            //val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
 
             val cardSize by animateFloatAsState(
                 targetValue = if (page == pagerState.currentPage) 1f else 0.9f,
-                animationSpec = tween(durationMillis = 300)
+                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
             )
 
             val cardAlpha by animateFloatAsState(
-                targetValue = if (page == pagerState.currentPage) 1f else 0.5f,
-                animationSpec = tween(durationMillis = 300)
+                targetValue = if (page == pagerState.currentPage) 1f else 0.4f,
+                animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
             )
 
             Box(modifier = Modifier
@@ -243,29 +250,33 @@ fun CustomHorizontalPager(listOfCards: List<FlipCardData>) {
                 .alpha(cardAlpha),
             ) {
                 FlipCard(
-                    title = listOfCards[page].title,
-                    distance = listOfCards[page].distance,
-                    description = listOfCards[page].description,
+                    title = listOfCards[index].title,
+                    distance = listOfCards[index].distance,
+                    description = listOfCards[index].description,
                 )
             }
         }
 
         Row(
             modifier = Modifier
-                .height(40.dp)
                 .padding(top = 20.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            repeat(listOfCards.size) { it ->
-                val color = if (pagerState.currentPage == it) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+            Text(
+                text = "${pagerState.currentPage % 10 + 1}/10",
+                fontStyle = FontStyle.Italic,
+                fontSize = 30.sp
+            )
+            /*repeat(listOfCards.size) { it ->
+                val color = if (pagerState.currentPage % 10 == it) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
 
                 Box(modifier = Modifier
                     .padding(3.5.dp)
                     .clip(CircleShape)
                     .size(6.dp)
                     .background(color))
-            }
+            }*/
         }
     }
 }
@@ -307,7 +318,7 @@ fun FrontCard(title: String, distance: Double) {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
                     )
                 }
             }
@@ -325,7 +336,7 @@ fun FrontCard(title: String, distance: Double) {
                     Box(modifier = Modifier
                         .padding(3.5.dp)
                         .clip(CircleShape)
-                        .size(6.dp)
+                        .size(30.dp, 3.dp)
                         .background(color))
                 }
             }
