@@ -58,18 +58,6 @@ fun SettingsScreen() {
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
-
-                    Spacer(Modifier.weight(1f))
-
-                    OutlinedButton(
-                        onClick = { /* TODO */ },
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(35.dp),
-                        shape = RoundedCornerShape(7.5.dp)
-                    ) {
-                        Text(text = "Log Out", fontSize = 15.sp)
-                    }
                 }
 
                 Row(
@@ -109,8 +97,15 @@ fun SettingsScreen() {
                 )
             }
 
-
-
+            OutlinedButton(
+                onClick = { /* TODO */ },
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(200.dp),
+                shape = RoundedCornerShape(7.5.dp)
+            ) {
+                Text(text = "Log Out", fontSize = 18.sp)
+            }
         }
     }
 }
