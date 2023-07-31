@@ -14,4 +14,5 @@ class LoginViewModel : ViewModel() {
 
     var currentPassword by mutableStateOf("")
 
+    var isLoading by mutableStateOf(false)
 }

@@ -32,8 +32,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.markermap.R
 import com.example.markermap.screens.bottomNavigationScreens.*
-import com.example.markermap.viewmodels.HomeViewModel
-import com.example.markermap.viewmodels.MapViewModel
+import com.example.markermap.viewmodels.MainViewModel
 
 sealed class BottomBarScreen(
     val route: String,
@@ -79,18 +78,17 @@ sealed class BottomBarScreen(
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
-    val homeViewModel: HomeViewModel = viewModel()
-    val mapViewModel: MapViewModel = viewModel()
+    val viewModel: MainViewModel = viewModel()
 
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Map.route
     ) {
         composable(route = BottomBarScreen.Map.route) {
-            MapScreen(mapViewModel)
+            MapScreen(viewModel)
         }
         composable(route = BottomBarScreen.Home.route) {
-            HomeScreen(homeViewModel)
+            HomeScreen(viewModel)
         }
         composable(route = BottomBarScreen.Messages.route) {
             MessagesScreen()

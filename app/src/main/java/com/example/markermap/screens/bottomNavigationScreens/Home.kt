@@ -32,9 +32,12 @@ import androidx.compose.ui.unit.sp
 import com.example.markermap.R
 import com.example.markermap.data.dataClasses.FlipCardData
 import com.example.markermap.viewmodels.HomeViewModel
+import com.example.markermap.viewmodels.MainViewModel
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(vm: MainViewModel) {
+    val viewModel = vm.homeViewModel
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),

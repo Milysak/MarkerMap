@@ -1,6 +1,8 @@
 package com.example.markermap.screens
 
 import android.content.Intent
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +28,8 @@ import com.example.markermap.AppActivity
 import com.example.markermap.R
 import com.example.markermap.app.Routes
 import com.example.markermap.viewmodels.LoginViewModel
+import com.example.markermap.viewmodels.MainActivityViewModel
+import kotlinx.coroutines.*
 
 @Composable
 fun scaledSp(value: Int): TextUnit {
@@ -36,8 +40,11 @@ fun scaledSp(value: Int): TextUnit {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewModel()){
+fun LoginPage(navController: NavController, vm: MainActivityViewModel = viewModel()) {
+    val viewModel = vm.loginViewModel
+
     Column(
         Modifier
             .fillMaxHeight()
@@ -81,7 +88,7 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
             shape = RoundedCornerShape(15.dp),
             label = { Text(text = "Email") },
             onValueChange = {
-                viewModel.currentUsername = it
+                viewModel.currentUsername = it.trim()
             },
             leadingIcon = {
                 Icon(modifier = Modifier.height(22.5.dp),
@@ -105,7 +112,7 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             onValueChange = {
-                viewModel.currentPassword = it
+                viewModel.currentPassword = it.trim()
             },
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -121,18 +128,39 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
         Spacer(modifier = Modifier.height(50.dp))
 
         val mContext = LocalContext.current
+
         ExtendedFloatingActionButton(
-            onClick = { mContext.startActivity(Intent(mContext, AppActivity::class.java)) },
+            onClick = {
+                CoroutineScope(Dispatchers.Main).launch {
+                    viewModel.isLoading = true
+                    delay(750)
+                    if (vm.login(viewModel.currentUsername, viewModel.currentPassword)) {
+                        Toast.makeText(mContext, "Log In Complete!", Toast.LENGTH_SHORT).show()
+                        mContext.startActivity(Intent(mContext, AppActivity::class.java))
+                    } else {
+                        Toast.makeText(mContext, "Log In Failure!", Toast.LENGTH_SHORT).show()
+                    }
+                    viewModel.isLoading = false
+                }
+                      },
             modifier = Modifier
                 .fillMaxWidth(viewModel.componentsWidth)
                 .height(50.dp),
             icon = {
-                Icon(modifier = Modifier.height(20.dp),
-                    painter = painterResource(id = R.drawable.login_outlined),
-                    contentDescription = "Favorite"
-                )
+                if (viewModel.isLoading) {
+                    CircularProgressIndicator(
+                        Modifier.then(Modifier.size(22.5.dp)),
+                        strokeWidth = 2.5.dp,
+                        trackColor = MaterialTheme.colorScheme.onPrimary,
+                    )
+                } else {
+                    Icon(modifier = Modifier.height(20.dp),
+                        painter = painterResource(id = R.drawable.login_outlined),
+                        contentDescription = "Favorite"
+                    )
+                }
             },
-            text = { Text("Login", fontSize = 20.sp) },
+            text = { Text(if (!viewModel.isLoading) "Login" else "Processing...", fontSize = 20.sp) },
             containerColor = MaterialTheme.colorScheme.primary
         )
 

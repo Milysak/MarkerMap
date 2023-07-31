@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.example.markermap.R
+import com.example.markermap.viewmodels.MainViewModel
 import com.example.markermap.viewmodels.MapViewModel
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -25,8 +26,10 @@ import com.google.maps.android.compose.*
 
 @Composable
 fun MapScreen(
-    viewModel: MapViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    vm: MainViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
+    val viewModel = vm.mapViewModel
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { /*TODO*/ },

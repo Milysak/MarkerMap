@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +23,29 @@ fun SettingsScreen() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ExtendedFloatingActionButton(
+                    onClick = {  },
+                    modifier = Modifier
+                        .fillMaxWidth(0.85f)
+                        .height(50.dp),
+                    icon = {
+                        Icon(modifier = Modifier.height(20.dp),
+                            painter = painterResource(id = R.drawable.sign_out_alt),
+                            contentDescription = "Log Out Icon"
+                        )
+                    },
+                    text = { Text("Log Out", fontSize = 20.sp) },
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
     ) {
         Column(
             modifier = Modifier
@@ -41,7 +63,7 @@ fun SettingsScreen() {
                 Row(modifier = Modifier
                     .height(55.dp)
                     .fillMaxWidth()
-                    .padding(horizontal = 15.dp),
+                    .padding(horizontal = 20.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
@@ -56,7 +78,25 @@ fun SettingsScreen() {
                     Text(
                         text = "USERNAME",
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 20.sp
+                    )
+
+                    Spacer(Modifier.weight(1f))
+
+                    Text(
+                        text = "750",
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFFFC107),
+                        fontSize = 20.sp,
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .padding(start = 5.dp),
+                        painter = painterResource(id = R.drawable.coins),
+                        contentDescription = "User Icon",
+                        tint = Color(0xFFFFC107)
                     )
                 }
 
@@ -84,7 +124,12 @@ fun SettingsScreen() {
                     .size(150.dp)
                     .clip(CircleShape)
                     .background(
-                        createGradientBrush(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))
+                        createGradientBrush(
+                            listOf(
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.secondary
+                            )
+                        )
                     ),
             ) {
                 Image(
@@ -97,15 +142,7 @@ fun SettingsScreen() {
                 )
             }
 
-            OutlinedButton(
-                onClick = { /* TODO */ },
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(200.dp),
-                shape = RoundedCornerShape(7.5.dp)
-            ) {
-                Text(text = "Log Out", fontSize = 18.sp)
-            }
+
         }
     }
 }
