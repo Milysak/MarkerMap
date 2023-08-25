@@ -9,6 +9,14 @@ Projekt realizowany "po godzinach", nazwa robocza MakerMap - w zamyśle finalnie
 - Firebase Realtime Database,
 - Firebase Storage.
 
+## TODO
+
+- wiadomości,
+- dodawanie zgłoszeń na mapie,
+- wgrywanie zdjęć,
+- rankingi,
+- manipulacja i rynek punktów,
+- ustawienia.
 
 ## Zrzuty ekranu
 
